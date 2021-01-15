@@ -7,11 +7,15 @@ import Folder from './Folder';
 import Note from './Note';
 import Context from './Context';
 import AddFolder from './AddFolder';
+import AddNote from './AddNote';
 
 class App extends Component {
   state = {
     folders: [],
     notes: [],
+    nameValidation: {
+      disable: true
+    }
   }
 
   componentDidMount() {
@@ -74,6 +78,54 @@ class App extends Component {
     console.log(newFolderName);
   }
 
+  handleNoteAdd = (e) => {
+    e.preventDefault();
+    const newNoteId = Math.random().toString(36).slice(2);
+    const newNoteName = e.target.noteName.value.trim();
+    const newNoteContent = e.target.noteContent.value;
+    const newNoteFolderId = e.target.folderOptions.value;
+    let today = new Date();
+    let date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+    let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+    let dateTime = date+'T'+time;
+    const note = {
+      id: newNoteId,
+      name: newNoteName,
+      modified: dateTime,
+      folderId: newNoteFolderId,
+      content: newNoteContent
+    }
+    this.setState(
+      {
+        notes: [...this.state.notes, note],
+        nameValidation: {
+          disable: true,
+        }
+      },
+      () => {
+        fetch("http://localhost:9090/notes", {
+          method: "POST",
+          headers: {
+            'content-type': 'application/json'
+          },
+          body: JSON.stringify(note)
+        }).then(res => res.json());
+      }
+    );
+    console.log(newNoteId);
+    console.log(newNoteName);
+    console.log(newNoteContent);
+    console.log(newNoteFolderId);
+  }
+
+  validateName = () => {
+    this.setState({
+      nameValidation: {
+        disable: false,
+      }
+    })
+  } 
+
   render() {
     const value = {
       notes: this.state.notes,
@@ -114,6 +166,18 @@ class App extends Component {
                 <AddFolder
                   {...props} 
                   handleFolderAdd={this.handleFolderAdd}
+                />
+              }
+            />
+            <Route 
+              path='/addNote'
+              render={(props) => 
+                <AddNote
+                  {...props}
+                  folders={this.state.folders}
+                  validateName={this.validateName}
+                  nameValidation={this.state.nameValidation} 
+                  handleNoteAdd={this.handleNoteAdd}
                 />
               }
             />

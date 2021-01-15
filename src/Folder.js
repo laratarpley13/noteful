@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { NavLink, Link } from 'react-router-dom';
 import Context from './Context';
+import PropTypes from 'prop-types';
 
 export default class Folder extends Component {
     static contextType = Context;
@@ -29,9 +30,13 @@ export default class Folder extends Component {
                             </li>
                         ))}
                     </ul>
-                    <button type='button' className='add-note'>Add Note</button>
+                    <Link to={'/addNote'}><h5>Add Note</h5></Link>
                 </div>  
             </div>
         );
     }
+}
+
+Folder.propTypes = {
+    match: PropTypes.object,
 }

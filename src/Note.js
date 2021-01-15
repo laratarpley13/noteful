@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import Context from './Context';
+import PropTypes from 'prop-types';
 
 export default class Note extends Component {
     static contextType = Context;
@@ -45,4 +46,9 @@ export default class Note extends Component {
             </div>
         )
     }
+}
+
+Note.propTypes = {
+    match: PropTypes.object,
+    history: PropTypes.object,
 }

@@ -30,7 +30,7 @@ class MainPage extends Component {
                             </li>
                         ))}
                     </ul>
-                    <button type='button' className='add-note'>Add Note</button>
+                    <Link to={'/addNote'}><h5>Add Note</h5></Link>
                 </div>                
             </div>
         )

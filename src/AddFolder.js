@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 export default function AddFolder(props) {
     return(
@@ -14,4 +15,9 @@ export default function AddFolder(props) {
             </form>
         </section>
     )
+}
+
+AddFolder.propTypes = {
+    history: PropTypes.object,
+    handleFolderAdd: PropTypes.func,
 }
