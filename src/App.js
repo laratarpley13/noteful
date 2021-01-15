@@ -5,7 +5,8 @@ import Header from './Header';
 import MainPage from './MainPage';
 import Folder from './Folder';
 import Note from './Note';
-import Context from './Context'
+import Context from './Context';
+import AddFolder from './AddFolder';
 
 class App extends Component {
   state = {
@@ -14,12 +15,24 @@ class App extends Component {
   }
 
   componentDidMount() {
-    fetch("http://localhost:9090/folders")
-      .then(res => res.json())
-      .then(folders => this.setState({ folders }));
-    fetch("http://localhost:9090/notes")
-      .then(res => res.json())
-      .then(notes => this.setState({ notes }));
+    Promise.all([
+      fetch("http://localhost:9090/folders"),
+      fetch("http://localhost:9090/notes")
+    ])
+      .then(([foldersRes, notesRes]) => {
+        if (!foldersRes.ok)
+          return foldersRes.json().then(e => Promise.reject(e));
+        if (!notesRes.ok)
+          return notesRes.json().then(e => Promise.reject(e));
+        
+        return Promise.all([foldersRes.json(), notesRes.json()]);
+      })
+      .then(([folders, notes]) => {
+        this.setState({folders, notes});
+      })
+      .catch(error => {
+        console.error({error});
+      });
   }
 
   deleteNote = (e, noteId) => {
@@ -33,6 +46,32 @@ class App extends Component {
         } 
       }).then(res => res.json())
     });
+  }
+
+  handleFolderAdd = (e) => {
+    e.preventDefault();
+    const newFolderId = Math.random().toString(36).slice(2);
+    const newFolderName = e.target.folderName.value;
+    const folder = {
+      id: newFolderId,
+      name: newFolderName,
+    }
+    this.setState(
+      {
+        folders: [...this.state.folders, folder] 
+      },
+      () => {
+        fetch("http://localhost:9090/folders", {
+          method: "POST",
+          headers: {
+            'content-type': 'application/json'
+          },
+          body: JSON.stringify(folder)
+        }).then(res => res.json());
+      }
+    );
+    console.log(newFolderId);
+    console.log(newFolderName);
   }
 
   render() {
@@ -68,6 +107,15 @@ class App extends Component {
                   {...props} 
                 />
               } 
+            />
+            <Route 
+              path='/addFolder'
+              render={(props) => 
+                <AddFolder
+                  {...props} 
+                  handleFolderAdd={this.handleFolderAdd}
+                />
+              }
             />
           </main>
         </div>

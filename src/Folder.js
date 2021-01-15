@@ -17,7 +17,7 @@ export default class Folder extends Component {
                                 : <li key={folder.id} id={folder.id}><Link to={`/folder/${folder.id}`} style={{textDecoration:'none'}}><h3>{folder.name}</h3></Link></li>
                         )}
                     </ul>
-                    <button type='button'>Add Folder</button>
+                    <Link to={'/addFolder'}><h5>Add Folder</h5></Link>
                 </div>
                 <div className='notes'>
                     <ul className='notes-list'>

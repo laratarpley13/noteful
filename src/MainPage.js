@@ -18,7 +18,7 @@ class MainPage extends Component {
                             </li>
                         ))}
                     </ul>
-                    <button type='button'>Add Folder</button>
+                    <Link to={'/addFolder'}><h5>Add Folder</h5></Link>
                 </div>
                 <div className='notes'>
                     <ul className='notes-list'>

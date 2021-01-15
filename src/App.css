@@ -3,7 +3,8 @@ header {
 }
 
 .active {
-  color: green;
+  color: greenyellow;
+  
 }
 
 .main-section {
@@ -21,10 +22,6 @@ header {
   border: solid 2px gray;
   margin: 20px;
   text-align: center;
-}
-
-.selected.active {
-  background-color: greenyellow;
 }
 
 .notes {
