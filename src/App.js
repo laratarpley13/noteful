@@ -8,6 +8,7 @@ import Note from './Note';
 import Context from './Context';
 import AddFolder from './AddFolder';
 import AddNote from './AddNote';
+import AppError from './appError';
 
 class App extends Component {
   state = {
@@ -49,6 +50,9 @@ class App extends Component {
           'content-type': 'application/json'
         } 
       }).then(res => res.json())
+      .catch(error => {
+        console.error({error});
+      })
     });
   }
 
@@ -71,7 +75,10 @@ class App extends Component {
             'content-type': 'application/json'
           },
           body: JSON.stringify(folder)
-        }).then(res => res.json());
+        }).then(res => res.json())
+        .catch(error => {
+          console.error({error})
+        })
       }
     );
     console.log(newFolderId);
@@ -109,7 +116,10 @@ class App extends Component {
             'content-type': 'application/json'
           },
           body: JSON.stringify(note)
-        }).then(res => res.json());
+        }).then(res => res.json())
+        .catch(error => {
+          console.error({error})
+        })
       }
     );
     console.log(newNoteId);
@@ -133,15 +143,18 @@ class App extends Component {
       deleteNote: this.deleteNote
     }
     return (
+      <AppError>
       <Context.Provider value={value}>
         <div className="App">
           <Header />
           <main>
             <Route 
               exact 
-              path='/' 
-              render={() => 
-                <MainPage />
+              path='/'
+              render={(props) => 
+                <MainPage 
+                  {...props}
+                />
               } 
             />
             <Route  
@@ -184,8 +197,14 @@ class App extends Component {
           </main>
         </div>
       </Context.Provider>
+      </AppError>
     );
   }
+}
+
+App.defaultProps = {
+  folders: [],
+  notes: []
 }
 
 export default App;

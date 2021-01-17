@@ -18,7 +18,7 @@ export default class Folder extends Component {
                                 : <li key={folder.id} id={folder.id}><Link to={`/folder/${folder.id}`} style={{textDecoration:'none'}}><h3>{folder.name}</h3></Link></li>
                         )}
                     </ul>
-                    <Link to={'/addFolder'}><h5>Add Folder</h5></Link>
+                    <button className='add-folder-button' onClick={() => this.props.history.push('/addFolder')}>Add Folder</button>
                 </div>
                 <div className='notes'>
                     <ul className='notes-list'>
@@ -30,7 +30,7 @@ export default class Folder extends Component {
                             </li>
                         ))}
                     </ul>
-                    <Link to={'/addNote'}><h5>Add Note</h5></Link>
+                    <button className='add-note-button' onClick={() => this.props.history.push('/addNote')}>Add Note</button>
                 </div>  
             </div>
         );

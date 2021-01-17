@@ -18,6 +18,10 @@ header {
   text-align: center;
 }
 
+.side-bar .add-folder-button {
+  margin: 20px;
+}
+
 .folder-list li {
   border: solid 2px gray;
   margin: 20px;
@@ -27,6 +31,10 @@ header {
 .notes {
   flex-basis: 70%;
   border: solid 2px gray;
+}
+
+.notes .add-note-button {
+  margin: 20px;
 }
 
 .notes-list li {
@@ -50,11 +58,43 @@ header {
 }
 
 .add-note {
-  margin-top: 20px;
-  margin-bottom: 30px;
-  margin-left: 15%;
+  text-align: center;
+  border: solid 2px gray;
+  margin-left: 40px;
+  margin-right: 40px;
+  padding: 20px;
+}
+
+.add-note form {
+  padding: 20px;
 }
 
 ul {
   list-style: none;
+}
+
+.add-folder {
+  text-align: center;
+  border: solid 2px gray;
+  margin-left: 40px;
+  margin-right: 40px;
+  padding: 20px;
+}
+
+.add-folder form {
+  padding: 20px;
+}
+
+.note-name {
+  margin-right: 10px;
+  margin-bottom: 20px;
+}
+
+.note-content {
+  margin-left: 10px;
+  margin-bottom: 20px;
+}
+
+.folder-options {
+  margin: 5px;
 }
