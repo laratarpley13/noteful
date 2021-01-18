@@ -14,8 +14,8 @@ export default class Folder extends Component {
                     <ul className='folder-list'>
                         {folders.map((folder) => 
                             (folder.id === this.props.match.params.folderId)
-                                ? <li key={folder.id} id={folder.id}><NavLink to={`/folder/${folder.id}`} activeClassName='active' style={{textDecoration:'none'}}><h3>{folder.name}</h3></NavLink></li>
-                                : <li key={folder.id} id={folder.id}><Link to={`/folder/${folder.id}`} style={{textDecoration:'none'}}><h3>{folder.name}</h3></Link></li>
+                                ? <li key={folder.id} id={folder.id}><NavLink to={`/folder/${folder.id}`} activeClassName='active'><h3>{folder.name}</h3></NavLink></li>
+                                : <li key={folder.id} id={folder.id}><Link to={`/folder/${folder.id}`}><h3>{folder.name}</h3></Link></li>
                         )}
                     </ul>
                     <button className='add-folder-button' onClick={() => this.props.history.push('/addFolder')}>Add Folder</button>
@@ -24,7 +24,7 @@ export default class Folder extends Component {
                     <ul className='notes-list'>
                         {filteredNotes.map((note) => (
                             <li key={note.id} id={note.id}>
-                                <Link to={`/note/${note.id}`} style={{textDecoration:'none'}}><h4>{note.name}</h4></Link>
+                                <Link to={`/note/${note.id}`}><h4>{note.name}</h4></Link>
                                 <p>{note.modified}</p>
                                 <button type='button' onClick={e => deleteNote(e, note.id)}>Delete Note</button>
                             </li>

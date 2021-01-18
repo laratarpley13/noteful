@@ -13,7 +13,7 @@ class MainPage extends Component {
                     <ul className='folder-list'>
                         {folders.map((folder) => (
                             <li key={folder.id} id={folder.id}>
-                                <Link to={`/folder/${folder.id}` } style={{textDecoration:'none'}}>
+                                <Link to={`/folder/${folder.id}` }>
                                     <h3>{folder.name}</h3>
                                 </Link>
                             </li>
@@ -25,7 +25,7 @@ class MainPage extends Component {
                     <ul className='notes-list'>
                         {notes.map((note) => (
                             <li key={note.id} id={note.id}>
-                                <Link to={`/note/${note.id}`} style={{textDecoration:'none'}}><h4>{note.name}</h4></Link>
+                                <Link to={`/note/${note.id}`}><h4>{note.name}</h4></Link>
                                 <p>{note.modified}</p>
                                 <button type='button' onClick={e => deleteNote(e, note.id)}>Delete Note</button>
                             </li>
