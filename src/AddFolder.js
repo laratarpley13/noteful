@@ -10,8 +10,8 @@ export default function AddFolder(props) {
                 props.handleFolderAdd(e)}
             }>
                 <label htmlFor='folderName'>Folder Name: </label>
-                <input type='text' id='folderName' name='folderName' />
-                <input type='submit' value="Add" />
+                <input type='text' id='folderName' name='folderName' required onChange={e => props.validateFolderName()} />
+                <input type='submit' value="Add" disabled={props.folderValidation.disable}/>
             </form>
         </section>
     )
@@ -20,4 +20,6 @@ export default function AddFolder(props) {
 AddFolder.propTypes = {
     history: PropTypes.object,
     handleFolderAdd: PropTypes.func,
+    validateFolderName: PropTypes.func,
+    folderValidation: PropTypes.object
 }

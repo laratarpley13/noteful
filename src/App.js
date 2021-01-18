@@ -16,6 +16,12 @@ class App extends Component {
     notes: [],
     nameValidation: {
       disable: true
+    },
+    contentValidation: {
+      disable: true
+    },
+    folderValidation: {
+      disable: true
     }
   }
 
@@ -66,7 +72,8 @@ class App extends Component {
     }
     this.setState(
       {
-        folders: [...this.state.folders, folder] 
+        folders: [...this.state.folders, folder],
+        folderValidation: {disable: true}
       },
       () => {
         fetch("http://localhost:9090/folders", {
@@ -107,6 +114,9 @@ class App extends Component {
         notes: [...this.state.notes, note],
         nameValidation: {
           disable: true,
+        },
+        contentValidation: {
+          disable: true,
         }
       },
       () => {
@@ -128,9 +138,25 @@ class App extends Component {
     console.log(newNoteFolderId);
   }
 
+  validateFolderName = () => {
+    this.setState({
+      folderValidation: {
+        disable: false,
+      }
+    })
+  }
+
   validateName = () => {
     this.setState({
       nameValidation: {
+        disable: false,
+      }
+    })
+  } 
+
+  validateContent = () => {
+    this.setState({
+      contentValidation: {
         disable: false,
       }
     })
@@ -179,6 +205,8 @@ class App extends Component {
                 <AddFolder
                   {...props} 
                   handleFolderAdd={this.handleFolderAdd}
+                  validateFolderName={this.validateFolderName}
+                  folderValidation={this.state.folderValidation}
                 />
               }
             />
@@ -189,7 +217,9 @@ class App extends Component {
                   {...props}
                   folders={this.state.folders}
                   validateName={this.validateName}
-                  nameValidation={this.state.nameValidation} 
+                  validateContent={this.validateContent}
+                  nameValidation={this.state.nameValidation}
+                  contentValidation={this.state.contentValidation} 
                   handleNoteAdd={this.handleNoteAdd}
                 />
               }

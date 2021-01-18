@@ -12,14 +12,14 @@ export default function AddNote(props) {
                 <label htmlFor='noteName' className='note-name'>Note Name: </label>
                 <input type='text' id='noteName' name='noteName' className='note-name' required onChange={e => props.validateName()} />
                 <label htmlFor='noteContent' className='note-content'>Note Content: </label>
-                <input type='text' id='noteContent' name='noteContent' className='note-content' />
+                <input type='text' id='noteContent' name='noteContent' className='note-content' required onChange={e => props.validateContent()} />
                 <label htmlFor='folderOptions' className='folder-options'>Choose a Folder for the Note to go into: </label>
                 <select name='folderOptions' id='folderOptions' className='folder-options'>
                     {props.folders.map((folder, i) => 
                         <option key={i} value={folder.id}>{folder.name}</option>    
                     )}
                 </select>
-                <input type='submit' value="Add" disabled={props.nameValidation.disable}/>
+                <input type='submit' value="Add" disabled={props.nameValidation.disable || props.contentValidation.disable}/>
             </form>
         </section>
     );
@@ -29,9 +29,11 @@ AddNote.propTypes = {
     history: PropTypes.object,
     handleNoteAdd: PropTypes.func,
     validateName: PropTypes.func,
+    validateContent: PropTypes.func,
     folders: PropTypes.arrayOf(PropTypes.shape({
         id: PropTypes.string.isRequired,
         name: PropTypes.string.isRequired
     })),
     nameValidation: PropTypes.object.isRequired,
+    contentValidation: PropTypes.object.isRequired,
 }
