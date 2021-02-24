@@ -7,13 +7,17 @@ export default class Folder extends Component {
     static contextType = Context;
     render() {
         const { folders, notes, deleteNote } = this.context
-        const filteredNotes = notes.filter(note => note.folderId === this.props.match.params.folderId);
+        /* console.log(folders)
+        console.log(notes)
+        console.log(parseInt(this.props.match.params.folderId)) */
+        const filteredNotes = notes.filter(note => note.folderId === parseInt(this.props.match.params.folderId));
+        //console.log(filteredNotes)
         return (
             <div className='main-section'>
                 <div className='side-bar'>
                     <ul className='folder-list'>
                         {folders.map((folder) => 
-                            (folder.id === this.props.match.params.folderId)
+                            (folder.id === parseInt(this.props.match.params.folderId))
                                 ? <li key={folder.id} id={folder.id}><NavLink to={`/folder/${folder.id}`} activeClassName='active'><h3>{folder.name}</h3></NavLink></li>
                                 : <li key={folder.id} id={folder.id}><Link to={`/folder/${folder.id}`}><h3>{folder.name}</h3></Link></li>
                         )}

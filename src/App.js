@@ -27,8 +27,8 @@ class App extends Component {
 
   componentDidMount() {
     Promise.all([
-      fetch("http://localhost:9090/folders"),
-      fetch("http://localhost:9090/notes")
+      fetch("http://localhost:8000/api/folders"),
+      fetch("http://localhost:8000/api/notes")
     ])
       .then(([foldersRes, notesRes]) => {
         if (!foldersRes.ok)
@@ -40,6 +40,8 @@ class App extends Component {
       })
       .then(([folders, notes]) => {
         this.setState({folders, notes});
+        /* console.log(this.state.folders)
+        console.log(this.state.notes) */
       })
       .catch(error => {
         console.error({error});
@@ -50,12 +52,12 @@ class App extends Component {
     e.preventDefault();
     let notes = this.state.notes.filter((note) => note.id !== noteId);
     this.setState({ notes }, () => {
-      fetch(`http://localhost:9090/notes/${noteId}`, {
+      fetch(`http://localhost:8000/api/notes/${noteId}`, {
         method: 'DELETE',
         headers: {
           'content-type': 'application/json'
         } 
-      }).then(res => res.json())
+      }).then(res => res)
       .catch(error => {
         console.error({error});
       })
@@ -64,10 +66,10 @@ class App extends Component {
 
   handleFolderAdd = (e) => {
     e.preventDefault();
-    const newFolderId = Math.random().toString(36).slice(2);
+    //const newFolderId = Math.random().toString(36).slice(2);
     const newFolderName = e.target.folderName.value;
     const folder = {
-      id: newFolderId,
+      //id: newFolderId,
       name: newFolderName,
     }
     this.setState(
@@ -76,7 +78,7 @@ class App extends Component {
         folderValidation: {disable: true}
       },
       () => {
-        fetch("http://localhost:9090/folders", {
+        fetch("http://localhost:8000/api/folders", {
           method: "POST",
           headers: {
             'content-type': 'application/json'
@@ -88,25 +90,26 @@ class App extends Component {
         })
       }
     );
-    console.log(newFolderId);
+    //console.log(newFolderId);
     console.log(newFolderName);
   }
 
   handleNoteAdd = (e) => {
     e.preventDefault();
-    const newNoteId = Math.random().toString(36).slice(2);
+    //const newNoteId = Math.random().toString(36).slice(2);
     const newNoteName = e.target.noteName.value.trim();
     const newNoteContent = e.target.noteContent.value;
-    const newNoteFolderId = e.target.folderOptions.value;
+    const newNoteFolderId = parseInt(e.target.folderOptions.value);
+    console.log(typeof(newNoteFolderId))
     let today = new Date();
     let date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
     let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
     let dateTime = date+'T'+time;
     const note = {
-      id: newNoteId,
+      //id: newNoteId,
       name: newNoteName,
       modified: dateTime,
-      folderId: newNoteFolderId,
+      folderid: newNoteFolderId,
       content: newNoteContent
     }
     this.setState(
@@ -120,7 +123,7 @@ class App extends Component {
         }
       },
       () => {
-        fetch("http://localhost:9090/notes", {
+        fetch("http://localhost:8000/api/notes", {
           method: "POST",
           headers: {
             'content-type': 'application/json'
@@ -132,7 +135,7 @@ class App extends Component {
         })
       }
     );
-    console.log(newNoteId);
+    //console.log(newNoteId);
     console.log(newNoteName);
     console.log(newNoteContent);
     console.log(newNoteFolderId);

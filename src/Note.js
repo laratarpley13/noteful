@@ -9,7 +9,7 @@ export default class Note extends Component {
     render() {
         const { folders, notes, deleteNote } = this.context;
         const selectedNote = notes.find(note => 
-            note.id === this.props.match.params.noteId    
+            note.id === parseInt(this.props.match.params.noteId)    
         )
         const mathcingFolder = folders.find(folder => 
             folder.id === selectedNote.folderId    

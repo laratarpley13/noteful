@@ -31,7 +31,6 @@ AddNote.propTypes = {
     validateName: PropTypes.func,
     validateContent: PropTypes.func,
     folders: PropTypes.arrayOf(PropTypes.shape({
-        id: PropTypes.string.isRequired,
         name: PropTypes.string.isRequired
     })),
     nameValidation: PropTypes.object.isRequired,
