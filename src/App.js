@@ -27,8 +27,8 @@ class App extends Component {
 
   componentDidMount() {
     Promise.all([
-      fetch("http://localhost:8000/api/folders"),
-      fetch("http://localhost:8000/api/notes")
+      fetch("https://evening-ocean-23432.herokuapp.com/api/folders"),
+      fetch("https://evening-ocean-23432.herokuapp.com/api/notes")
     ])
       .then(([foldersRes, notesRes]) => {
         if (!foldersRes.ok)
@@ -52,7 +52,7 @@ class App extends Component {
     e.preventDefault();
     let notes = this.state.notes.filter((note) => note.id !== noteId);
     this.setState({ notes }, () => {
-      fetch(`http://localhost:8000/api/notes/${noteId}`, {
+      fetch(`https://evening-ocean-23432.herokuapp.com/api/notes/${noteId}`, {
         method: 'DELETE',
         headers: {
           'content-type': 'application/json'
@@ -78,7 +78,7 @@ class App extends Component {
         folderValidation: {disable: true}
       },
       () => {
-        fetch("http://localhost:8000/api/folders", {
+        fetch("https://evening-ocean-23432.herokuapp.com/api/folders", {
           method: "POST",
           headers: {
             'content-type': 'application/json'
@@ -123,7 +123,7 @@ class App extends Component {
         }
       },
       () => {
-        fetch("http://localhost:8000/api/notes", {
+        fetch("https://evening-ocean-23432.herokuapp.com/api/notes", {
           method: "POST",
           headers: {
             'content-type': 'application/json'
