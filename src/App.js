@@ -66,32 +66,43 @@ class App extends Component {
 
   handleFolderAdd = (e) => {
     e.preventDefault();
-    //const newFolderId = Math.random().toString(36).slice(2);
     const newFolderName = e.target.folderName.value;
     const folder = {
-      //id: newFolderId,
       name: newFolderName,
     }
     this.setState(
       {
-        folders: [...this.state.folders, folder],
         folderValidation: {disable: true}
-      },
-      () => {
-        fetch("https://evening-ocean-23432.herokuapp.com/api/folders", {
-          method: "POST",
-          headers: {
-            'content-type': 'application/json'
-          },
-          body: JSON.stringify(folder)
-        }).then(res => res.json())
-        .catch(error => {
-          console.error({error})
-        })
       }
     );
+
+    //POST the new folder
+    fetch("https://evening-ocean-23432.herokuapp.com/api/folders", {
+      method: 'POST',
+      body: JSON.stringify(folder),
+      headers: {
+        'content-type': 'application/json'
+      }
+    })
+      .then(res => {
+        if(!res.ok) {
+          return res.json().then(error => {
+            throw error
+          })
+        }
+        return res.json()
+      })
+      .then(data => {
+        console.log(data)
+        this.setState({
+          folders: [...this.state.folders, data]
+        })
+      })
+      .catch(error => {
+        console.error({error})
+      })
+
     console.log(this.state.folders);
-    console.log(newFolderName);
   }
 
   handleNoteAdd = (e) => {
@@ -99,54 +110,53 @@ class App extends Component {
     const newNoteName = e.target.noteName.value.trim();
     const newNoteContent = e.target.noteContent.value;
     const newNoteFolderId = parseInt(e.target.folderOptions.value);
-    //console.log(newNoteFolderId)
+    console.log(newNoteFolderId)
     let today = new Date();
     let date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
     let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
     let dateTime = date+'T'+time;
     const note = {
-      //id: newNoteId,
       name: newNoteName,
       modified: dateTime,
       folderid: newNoteFolderId,
       content: newNoteContent
     }
-    console.log(note)
     this.setState(
       {
-        notes: [...this.state.notes, note],
         nameValidation: {
           disable: true,
         },
         contentValidation: {
           disable: true,
         }
-      },
-      () => {
-        fetch("https://evening-ocean-23432.herokuapp.com/api/notes", {
-          method: "POST",
-          headers: {
-            'content-type': 'application/json'
-          },
-          body: JSON.stringify(note)
-        }).then(res => res.json())
-        .catch(error => {
-          console.error({error})
-        })
       }
-    );
-  
-      fetch("https://evening-ocean-23432.herokuapp.com/api/notes", {
-        method: "GET"
+    )
+    //POST the new note
+    fetch("https://evening-ocean-23432.herokuapp.com/api/notes", {
+      method: 'POST',
+      body: JSON.stringify(note),
+      headers: {
+        'content-type': 'application/json',
+      }
+    })
+      .then(res => {
+        if(!res.ok) {
+          return res.json().then(error => {
+            throw error
+          })
+        }
+        return res.json()
       })
-        .then(res => res.json())
-        .then(responseData => console.log(responseData))        
-        .catch(error => {
-          console.error(error)
+      .then(data => {
+        console.log(data)
+        this.setState({
+          notes: [...this.state.notes, data]
         })
-  
-    //console.log(newNoteId);
-    //console.log(this.state.notes);
+      })
+      .catch(error => {
+        console.error({error})
+      })
+    console.log(this.state.notes);
   }
 
   validateFolderName = () => {
